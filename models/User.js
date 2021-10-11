@@ -7,7 +7,11 @@ const userSchema = mongoose.Schema({
     lastName: {type: String, required: true},
     displayName: {type: String, required: true},
     imageUrl: {type: String, required: true},
-    createdAt: {type: Date, default: Date.now}
+    firstVisit: {type: Boolean, default: true},
+    dashboardInit: {type: Boolean, default: false},
+    categories: {type: String, default: null},
+    createdAt: {type: Date, default: Date.now},
+    articles: [Object]
 })
 
 module.exports = mongoose.model('User', userSchema);

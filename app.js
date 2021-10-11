@@ -8,14 +8,19 @@ const session = require('express-session');
 const authRouter = require('./routes/auth');
 const cors = require('cors')
 const newsRouter = require('./routes/news')
+const userRouter = require('./routes/user')
+const User = require('./models/User')
+const bodyParser = require('body-parser');
+
 // connect dotenv to bring environment variables
 dotenv.config({path: './config/config.env'})              
-
+app.use(bodyParser())
 app.use(cors({
     methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
     origin: '*'
 
 }));
+
 
 // connect mongo database
 connectDB()
@@ -25,7 +30,7 @@ require('./config/passport')(passport)
 
 // store the logged in user
 let user = null;
-
+let id = null;
 // initiate express sessions
 app.use(session({
     secret: 'keyboard cat',
@@ -40,25 +45,53 @@ app.use(passport.session());
 //app.use('/auth', authRouter)
 
 app.get('/auth/google',
-    passport.authenticate('google', { scope: ['profile'] }));
+    passport.authenticate('google', { scope: ['profile'] })); 
 
 app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: 'http://localhost:3001/' }),
     function (req, res) {
         // Successful authentication, redirect home.
         user = req.user
+        id = req.user._id
+        console.log(id)
         res.redirect('http://localhost:3001/');
     });
 
 app.get('/user', (req, res) => {
-    if(user){
-        res.status(200).json(user)
-    }
+    User.findOne({_id: id}).then(
+        (user) => {
+            res.json(user)
+        }
+    ).catch(
+        (error) => {
+            res.json({message: 'User Not Found'})
+        }
+    )
+})
+// make a router middlewar that lets the user save articles
+app.post('/user/save', (req, res) => {
+    const article = req.body
+    console.log("saved Article",article)
+    User.findOneAndUpdate({_id: id}, {$addToSet:{ articles: article}}, {new: true}).then(
+        (user) => {
+            console.log(user)
+            user = user
+            res.send(user)
+        }
+    ).catch(
+        (error) => {
+            console.log(error)
+        }
+    )
 })
 app.get('/auth/logout', (req, res) => {
     req.logout();
     user = null
+    id = null
     res.redirect('http://localhost:3001')
 })
+//router for the news Api
 app.use('/news', newsRouter)
+// router to fetchdata from the Mongo DB
+app.use('/users', userRouter)
 app.listen(3000, console.log('connected'))    
