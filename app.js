@@ -96,5 +96,7 @@ app.use('/news', newsRouter)
 // router to fetchdata from the Mongo DB
 app.use('/users', userRouter)
 //app.listen(process.env.PORT || 3000, console.log('connected'))  
-const server = https.createServer(app)
-server.listen(process.env.PORT || 3000)  
+//const server = https.createServer(app)
+//server.listen(process.env.PORT || 3000, console.log('connected'))  
+
+module.exports = app
