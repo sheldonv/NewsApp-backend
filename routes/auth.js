@@ -10,6 +10,6 @@ authRouter.get('/google/callback',
     function (req, res) {
         // Successful authentication, redirect home.
         res.redirect('http://localhost:3000/dashboard');
-    });
+    });//change
 
 module.exports = authRouter;

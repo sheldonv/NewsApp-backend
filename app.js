@@ -11,6 +11,7 @@ const newsRouter = require('./routes/news')
 const userRouter = require('./routes/user')
 const User = require('./models/User')
 const bodyParser = require('body-parser');
+const https = require('https')
 
 // connect dotenv to bring environment variables
 dotenv.config({path: './config/config.env'})              
@@ -48,13 +49,13 @@ app.get('/auth/google',
     passport.authenticate('google', { scope: ['profile'] })); 
 
 app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: 'http://localhost:3001/' }),
+    passport.authenticate('google', { failureRedirect: 'http://localhost:3000/' }),
     function (req, res) {
         // Successful authentication, redirect home.
         user = req.user
         id = req.user._id
         console.log(id)
-        res.redirect('http://localhost:3001/');
+        res.redirect('http://localhost:3000/');
     });
 
 app.get('/user', (req, res) => {
@@ -88,10 +89,12 @@ app.get('/auth/logout', (req, res) => {
     req.logout();
     user = null
     id = null
-    res.redirect('http://localhost:3001')
+    res.redirect('http://localhost:3000')
 })
 //router for the news Api
 app.use('/news', newsRouter)
 // router to fetchdata from the Mongo DB
 app.use('/users', userRouter)
-app.listen(process.env.PORT || 3000, console.log('connected'))    
+//app.listen(process.env.PORT || 3000, console.log('connected'))  
+const server = https.createServer(app)
+server.listen(process.env.PORT || 3000)  
