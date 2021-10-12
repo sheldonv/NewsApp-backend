@@ -94,4 +94,4 @@ app.get('/auth/logout', (req, res) => {
 app.use('/news', newsRouter)
 // router to fetchdata from the Mongo DB
 app.use('/users', userRouter)
-app.listen(3000, console.log('connected'))    
+app.listen(process.env.PORT || 3000, console.log('connected'))    
