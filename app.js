@@ -16,11 +16,16 @@ const https = require('https')
 // connect dotenv to bring environment variables
 dotenv.config({path: './config/config.env'})              
 app.use(bodyParser())
-app.use(cors({
-    methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
-    origin: '*'
-
-}));
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    );
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+  
+    next();
+  });
 
 
 // connect mongo database
