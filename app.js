@@ -54,13 +54,13 @@ app.get('/auth/google',
     passport.authenticate('google', { scope: ['profile'] })); 
 
 app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: 'http://localhost:3000/' }),
+    passport.authenticate('google', { failureRedirect: `${process.env.REACT_FRONTEND_URL}` }),
     function (req, res) {
         // Successful authentication, redirect home.
         user = req.user
         id = req.user._id
         console.log(id)
-        res.redirect('http://localhost:3000/');
+        res.redirect(`${process.env.REACT_FRONTEND_URL}`);
     });
 
 app.get('/user', (req, res) => {
@@ -94,7 +94,7 @@ app.get('/auth/logout', (req, res) => {
     req.logout();
     user = null
     id = null
-    res.redirect('http://localhost:3000')
+    res.redirect(`${process.env.REACT_FRONTEND_URL}`)
 })
 //router for the news Api
 app.use('/news', newsRouter)
