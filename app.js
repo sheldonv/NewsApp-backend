@@ -50,10 +50,10 @@ app.use(passport.session());
 
 //app.use('/auth', authRouter)
 
-app.get('/auth/google',
+app.get('/auth/',
     passport.authenticate('google', { scope: ['profile'] })); 
 
-app.get('/auth/google/callback',
+app.get('/auth/',
     passport.authenticate('google', { failureRedirect: `${process.env.REACT_FRONTEND_URL}` }),
     function (req, res) {
         // Successful authentication, redirect home.
