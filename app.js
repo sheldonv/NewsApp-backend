@@ -50,7 +50,7 @@ app.use(passport.session());
 
 //app.use('/auth', authRouter)
 
-app.get('/auth/',
+app.get('/auth/google',
     passport.authenticate('google', { scope: ['profile'] })); 
 
 app.get('/auth/',
