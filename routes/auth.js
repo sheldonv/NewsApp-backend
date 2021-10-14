@@ -6,10 +6,10 @@ authRouter.get('/google',
     passport.authenticate('google', { scope: ['profile'] }));
 
 authRouter.get('/google/callback',
-    passport.authenticate('google', { failureRedirect: 'http://localhost:3000/' }),
+    passport.authenticate('google', { failureRedirect: `${process.env.REACT_APP_FRONTEND_URL}` }),
     function (req, res) {
         // Successful authentication, redirect home.
-        res.redirect('http://localhost:3000/dashboard');
+        res.redirect(`${process.env.REACT_APP_FRONTEND_URL}`);
     });//change
 
 module.exports = authRouter;
