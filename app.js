@@ -53,7 +53,7 @@ app.use(passport.session());
 app.get('/auth/google',
     passport.authenticate('google', { scope: ['profile'] })); 
 
-app.get('/auth/',
+app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: `${process.env.REACT_FRONTEND_URL}` }),
     function (req, res) {
         // Successful authentication, redirect home.
