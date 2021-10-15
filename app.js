@@ -14,7 +14,13 @@ const bodyParser = require('body-parser');
 const https = require('https')
 
 // connect dotenv to bring environment variables
-dotenv.config({path: './config/config.env'})              
+
+if(process.env.NODE_ENV === 'development'){
+    dotenv.config({path: './config/config.env'})              
+}else{
+    dotenv.config({path: './config/config.production.env'})              
+}
+
 app.use(bodyParser())
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');  
