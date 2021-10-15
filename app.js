@@ -17,7 +17,7 @@ const https = require('https')
 
 if(process.env.NODE_ENV === 'development'){
     dotenv.config({path: './config/config.env'})              
-}else{
+}else if(process.env.NODE_ENV === 'production'){
     dotenv.config({path: './config/config.production.env'})              
 }
 
