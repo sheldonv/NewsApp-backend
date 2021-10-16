@@ -16,10 +16,9 @@ const https = require('https')
 // connect dotenv to bring environment variables
 
 if(process.env.NODE_ENV === 'development'){
-                dotenv.config({path: './config/config.production.env'})
+    dotenv.config({path: './config/config.env'})              
 }else if(process.env.NODE_ENV === 'production'){
-                      dotenv.config({path: './config/config.env'})  
-
+    dotenv.config({path: './config/config.production.env'})              
 }
 
 app.use(bodyParser())
